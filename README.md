@@ -1,9 +1,8 @@
-# Diverse Weight Averaging for Out-of-Distribution Generalization
+# Diverse Weight Averaging for Out-of-Distribution Generalization, NeurIPS 2022
 
-Official PyTorch implementation of DiWA | [paper](https://arxiv.org/abs/2205.09739)
+Official PyTorch implementation of DiWA | [paper](https://arxiv.org/abs/2205.09739), [openreview](https://openreview.net/forum?id=tq_J_MqB3UB)
 
 [Alexandre Ramé](https://alexrame.github.io/), [Matthieu Kirchmeyer](https://scholar.google.com/citations?user=oJkKtrkAAAAJ&hl=en), [Thibaud Rahier](https://scholar.google.nl/citations?user=IFOAOTMAAAAJ&hl=pl), [Alain Rakotomamonjy](http://asi.insa-rouen.fr/enseignants/~arakoto/), [Patrick Gallinari](http://www-connex.lip6.fr/~gallinar/gallinari/pmwiki.php), [Matthieu Cord](http://webia.lip6.fr/~cord/)
-
 
 ## TL;DR
 
@@ -29,15 +28,16 @@ In addition to the newly-added `domainbed/scripts/diwa.py` and `domainbed/algori
 Then you should be able to reproduce our main experiment (Table 1) on the DomainBed benchmark.
 
 ### Requirements
-- python == 3.7.10
-- torch == 1.8.1
-- torchvision == 0.9.1
-- numpy == 1.20.2
+
+* python == 3.7.10
+* torch == 1.8.1
+* torchvision == 0.9.1
+* numpy == 1.20.2
 
 ### Datasets
 
-
 We ran DiWA on the following [datasets](domainbed/datasets.py):
+
 * VLCS ([Fang et al., 2013](https://openaccess.thecvf.com/content_iccv_2013/papers/Fang_Unbiased_Metric_Learning_2013_ICCV_paper.pdf))
 * PACS ([Li et al., 2017](https://arxiv.org/abs/1710.03077))
 * OfficeHome ([Venkateswara et al., 2017](https://arxiv.org/abs/1706.07522))
@@ -55,9 +55,7 @@ python3 -m domainbed.scripts.download --data_dir=/my/data/dir
 
 Our training procedure is in three stages.
 
-
 ### Set the initialization
-
 
 First, we need to fix the initialization.
 
@@ -73,6 +71,7 @@ python3 -m domainbed.scripts.train\
 ```
 
 In the paper, we proposed $2$ initialization procedures:
+
 * random initialization, set `steps` to `-1`: there will be no training.
 * [Linear Probing, ICLR2022](https://openreview.net/forum?id=UYneFzXSJWh), set `steps` to `0`: only the classifier will be trained.
 
@@ -111,6 +110,7 @@ python -m domainbed.scripts.diwa\
 ```
 
 In the paper, we proposed $3$ different procedures:
+
 * DiWA-restricted, set `weight_selection` to `restricted` and `trial_seed` to an integer between `0` and `2`.
 * DiWA-uniform, set `weight_selection` to `uniform` and `trial_seed` to an integer between `0` and `2`.
 * DiWA$^\dagger$-uniform, set `weight_selection` to `uniform` and `trial_seed` to `-1`.
@@ -158,21 +158,17 @@ DiWA sets a new state of the art on DomainBed.
 | DiWA             | Uniform          | LP     | 88.7 | 78.4 | 72.1       | 51.4     | 47.4      | 67.6 |
 | DiWA$^{\dagger}$ | Uniform          | LP     | 89.0 | 78.6 | 72.8       | 51.9     | 47.7      | 68.0 |
 
-
-
 # Citation
 
-If you find this code useful for your research, please consider citing our work (under review):
+If you find this code useful for your research, please consider citing our work:
 
 ```
-@article{rame2022diwa,
+@inproceedings{rame2022diwa,
   title   = {Diverse Weight Averaging for Out-of-Distribution Generalization},
   author  = {Rame, Alexandre and Kirchmeyer, Matthieu and Rahier, Thibaud and Rakotomamonjy, Alain and Gallinari, Patrick and Cord, Matthieu},
   year    = {2022},
-  journal = {arXiv preprint}
+  booktitle = {NeurIPS}
 }
 ```
 
 Correspondence to alexandre.rame at sorbonne-universite dot fr
-
-
