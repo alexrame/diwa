@@ -81,18 +81,19 @@ def get_dict_folder_to_score(inf_args):
             continue
         if train_args["trial_seed"] != inf_args.trial_seed and inf_args.trial_seed != -1:
             continue
-
-        print(f"Found: {folder}")
-        dict_folder_to_score[folder] = misc.get_score(
+        score = misc.get_score(
             json.loads(save_dict["results"]),
-            [inf_args.test_env], metric_key="Accuracies/acc_net")
+            [inf_args.test_env])
+
+        print(f"Found: {folder} with score: {score}")
+        dict_folder_to_score[folder] = score
 
     if len(dict_folder_to_score) == 0:
         raise ValueError(f"No folders found for: {inf_args}")
     return dict_folder_to_score
 
 def get_wa_results(
-    good_checkpoints, dataset, inf_args, data_names, data_splits, device
+    good_checkpoints, dataset, data_names, data_splits, device
 ):
     wa_algorithm = algorithms_inference.DiWA(
         dataset.input_shape,
@@ -194,7 +195,7 @@ def main():
             selected_checkpoints = [sorted_checkpoints[index] for index in selected_indexes]
 
             ood_results = get_wa_results(
-                selected_checkpoints, dataset, inf_args, data_names, data_splits, device
+                selected_checkpoints, dataset, data_names, data_splits, device
             )
             ood_results["i"] = i
             ## accept only if WA's accuracy is improved
@@ -215,7 +216,7 @@ def main():
 
     elif inf_args.weight_selection == "uniform":
         dict_results = get_wa_results(
-            list(dict_folder_to_score.keys()), dataset, inf_args, data_names, data_splits, device
+            list(dict_folder_to_score.keys()), dataset, data_names, data_splits, device
         )
         print_results(dict_results)
 
